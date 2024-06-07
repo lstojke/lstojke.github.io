@@ -16,3 +16,16 @@
 .upload-tile:hover {
     background-color: #45a049;
 }
+
+.container {
+    text-align: center;
+}
+
+.clicker {
+    text-align: center;
+    cursor: pointer;
+}
+
+.clicker:hover {
+    background-color: #fafafa;
+}
