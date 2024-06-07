@@ -1,31 +1,48 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
+<html>
+  <head>
+    <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload File to Google Drive</title>
+    <title>Wrzuć swoje zdjęcia z wesela!</title>
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  </head>
+  <body>
     <div class="upload-tile" id="uploadTile">
-        Kliknij tutaj, aby wybrać plik
+      Kliknij tutaj, aby wybrać plik
     </div>
-    <input type="file" id="fileInput" style="display:none">
-    <form id="uploadForm" action="https://script.google.com/macros/s/AKfycbxqGbT1LxClas-AqRYUft1eSuWX-F4f-FX-Skxo5kGqtZ90gLJDTqOdQ2_dV2hr0e-QqQ/exec" method="post" enctype="multipart/form-data" style="display:none">
-        <input type="file" name="file" id="hiddenFileInput">
+    <form id="form">
+      <input name="file" id="uploadFile" type="file" style="display:none" />
+      <input id="submit" type="submit" />
     </form>
-    <div id="output"></div>
+    
     <script>
-        document.getElementById('uploadTile').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const hiddenFileInput = document.getElementById('hiddenFileInput');
-            hiddenFileInput.files = event.target.files;
-            document.getElementById('uploadForm').submit();
-        });
+      document.getElementById('uploadTile').addEventListener('click', function() {
+          document.getElementById('uploadFile').click();
+      });
+      const form = document.getElementById("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const file = form.file.files[0];
+        const fr = new FileReader();
+        fr.readAsArrayBuffer(file);
+        fr.onload = (f) => {
+          const url = "https://script.google.com/macros/s/AKfycbx44cr7BT3VZKlcweY9stliGb3n-cx5EKCUUQjkWESDHyp8vVDNEW7sp9gbv9x8zQ0Eog/exec"; // Please set the URL of Web Apps.
+    
+          const qs = new URLSearchParams({
+            filename: file.name,
+            mimeType: file.type,
+          });
+          fetch(`${url}?${qs}`, {
+            method: "POST",
+            body: JSON.stringify([...new Int8Array(f.target.result)]),
+          })
+            .then((res) => res.json())
+            .then(console.log)
+            .catch(console.log);
+        };
+      });
     </script>
-</body>
+  </body>
 </html>
+
