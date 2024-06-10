@@ -3,6 +3,9 @@ document.getElementById('uploadTile').addEventListener('click', function () {
 });
 
 document.getElementById('submitTile').addEventListener('click', function () {
+    while (preview.firstChild) {
+        preview.removeChild(preview.firstChild);
+    }
     document.getElementById('submit').click();
 });
 const form = document.getElementById("form");
@@ -19,6 +22,12 @@ form.addEventListener("submit", (e) => {
             uploadFileToDrive(allFiles[fileNum]);
         }
     }
+    const para = document.createElement("p");
+    para.textContent = "Dzięki za udostępnienie!";
+    para.style.color = 'green';
+    para.style.fontWeight = 'bold';
+    para.style.fontSize = 'x-large';
+    preview.appendChild(para);
 }
 );
 
@@ -37,16 +46,7 @@ function uploadFileToDrive(file) {
         })
         .then((res) => res.json())
         .then((data) => {
-            while (preview.firstChild) {
-                preview.removeChild(preview.firstChild);
-            }
             console.log('Success:', data);
-            const para = document.createElement("p");
-            para.textContent = "Dzięki za udostępnienie!";
-            para.style.color = 'green';
-            para.style.fontWeight = 'bold';
-            para.style.fontSize = 'x-large';
-            preview.appendChild(para);
         })
         .catch(console.error);
     };
