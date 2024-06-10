@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wrzuć swoje zdjęcia z wesela!</title>
     <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
+    <link href='https://fonts.googleapis.com/css?family=Italianno' rel='stylesheet'>
+</head>
+
+<body>
     <div class="container">
         <img src="res/Opis_strony.png" alt="Welcome Image">
     </div>
     <div class="clicker" id="uploadTile">
         <img src="res/dodaj_zdjecia.png" alt="dodaj_zdjecia">
     </div>
+    
+    <div class="preview"></div>
     <div class="clicker" id="submitTile">
         <img src="res/wyslij_zdjecia.png" alt="wyslij_zdjecia">
     </div>
@@ -23,41 +28,11 @@
         </a>
     </div>
     <form id="form" style="display:none">
-      <input name="file" id="uploadFile" type="file" />
-      <input id="submit" type="submit" />
+        <input name="file" id="uploadFile" type="file" multiple />
+        <input id="submit" type="submit" />
     </form>
-    
-    <script>
-      document.getElementById('uploadTile').addEventListener('click', function() {
-          document.getElementById('uploadFile').click();
-      });
-      
-      document.getElementById('submitTile').addEventListener('click', function() {
-          document.getElementById('submit').click();
-      });
-      const form = document.getElementById("form");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const file = form.file.files[0];
-        const fr = new FileReader();
-        fr.readAsArrayBuffer(file);
-        fr.onload = (f) => {
-          const url = "https://script.google.com/macros/s/AKfycbx44cr7BT3VZKlcweY9stliGb3n-cx5EKCUUQjkWESDHyp8vVDNEW7sp9gbv9x8zQ0Eog/exec"; // Please set the URL of Web Apps.
-    
-          const qs = new URLSearchParams({
-            filename: file.name,
-            mimeType: file.type,
-          });
-          fetch(`${url}?${qs}`, {
-            method: "POST",
-            body: JSON.stringify([...new Int8Array(f.target.result)]),
-          })
-            .then((res) => res.json())
-            .then(console.log)
-            .catch(console.log);
-        };
-      });
-    </script>
-  </body>
-</html>
 
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,6 @@
+body {
+    font-family: 'Italianno';
+}
 .upload-tile {
     width: 200px;
     height: 100px;
@@ -10,7 +13,6 @@
     border-radius: 10px;
     text-align: center;
     margin: 50px auto;
-    font-size: 16px;
 }
 
 .upload-tile:hover {
@@ -29,3 +31,27 @@
 .clicker:hover {
     background-color: #fafafa;
 }
+
+.preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+ol.horizontal{
+    justify-content: center;
+    align-items: center;
+}
+
+ol.horizontal li{
+    justify-content: center;
+    align-items: center;
+}
+
+img.img-preview {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+
